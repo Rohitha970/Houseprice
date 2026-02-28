@@ -1027,21 +1027,21 @@ with tab_analytics:
             labels={"predicted_price": "Price (₹)", "state": "State"}
          
         )
-     fig1.update_layout(
-    paper_bgcolor="white",
-    plot_bgcolor="#f0f9ff",
-    font_family="Inter",
-    title_font_size=15,
-    legend_title="Segment",
-    font=dict(color="#000000"),
-    xaxis=dict(
-        tickangle=-30,
-        color="#000000"
-    ),
-    yaxis=dict(
-        color="#000000"
-    )
-)
+         fig1.update_layout(
+            paper_bgcolor="white",
+            plot_bgcolor="#f0f9ff",
+            font_family="Inter",
+            title_font_size=15,
+            legend_title="Segment",
+            font=dict(color="#000000"),
+            xaxis=dict(
+               tickangle=-30,
+               color="#000000"
+             ),
+            yaxis=dict(
+               color="#000000"
+             )
+         )
      
      
    
