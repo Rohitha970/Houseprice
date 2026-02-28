@@ -1031,23 +1031,24 @@ with tab_analytics:
     paper_bgcolor="white",
     plot_bgcolor="#f0f9ff",
     font_family="Inter",
-    title_font_size=13 if is_mobile else 15,
+    title_font_size=15,
     legend_title="Segment",
-    font=dict(color="#000000", size=10 if is_mobile else 12),
+    font=dict(color="#000000"),
     xaxis=dict(
-        tickangle=-45 if is_mobile else -30,
-        color="#000000",
-        automargin=True
+        tickangle=-30,
+        color="#000000"
     ),
-    yaxis=dict(color="#000000", automargin=True),
-    margin=dict(l=10, r=10, t=40, b=60 if is_mobile else 40),
-    height=350 if is_mobile else 450
+    yaxis=dict(
+        color="#000000"
+    )
 )
+     
+     
+   
        
         
         ch1.plotly_chart(fig1, use_container_width=True)
 
-        # Chart 2 — Scatter
         fig2 = px.scatter(
             df_hist, x="area", y="predicted_price", color="segment",
             size="bedrooms", hover_data=["city","bedrooms","furnishing"],
