@@ -57,7 +57,8 @@ p, span, h1, h2, h3, h4 { color: #1e293b !important; }
 .sec-head { 
     font-size: 12px; font-weight: 700; color: white !important;
     text-transform: uppercase; letter-spacing: 1.2px;
-    background: linear-gradient(135deg, #1e3a8a, #1d4ed8);
+    background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+    
     padding: 8px 16px; border-radius: 8px;
     border-bottom: none; margin: 22px 0 14px;
     display: block; }
@@ -72,7 +73,7 @@ p, span, h1, h2, h3, h4 { color: #1e293b !important; }
 
 /* Buttons */
 .stButton > button { background: linear-gradient(135deg, #fff0e6, #ffe0cc);!important;
-    color: white !important; border: none !important; border-radius: 12px !important;
+    color: black !important; border: none !important; border-radius: 12px !important;
     font-weight: 700 !important; font-size: 15px !important;
     padding: 14px 20px !important; transition: all .2s !important; width: 100% !important; }
 .stButton > button:hover { transform: translateY(-1px) !important; }
@@ -543,15 +544,15 @@ if not st.session_state.logged_in:
         </div>
         <div style='display:flex;justify-content:center;gap:16px;margin-top:20px;flex-wrap:wrap;'>
             <div style='background:rgba(255,255,255,0.95);border:1px solid rgba(255,255,255,0.3);
-                border-radius:50px;padding:8px 18px;font-size:13px;color:white;font-weight:600;'>
+                border-radius:50px;padding:8px 18px;font-size:13px;color:black;font-weight:600;'>
                 🏠 Instant Price Prediction
             </div>
             <div style='background: linear-gradient(135deg, #f0e6ff, #d6ccff);border:1px solid rgba(255,255,255,0.3);
-                border-radius:50px;padding:8px 18px;font-size:13px;color:white;font-weight:600;'>
+                border-radius:50px;padding:8px 18px;font-size:13px;color:black;font-weight:600;'>
                 📍 Live Location Map
             </div>
             <div style='background:rgba(255,255,255,0.95);;border:1px solid rgba(255,255,255,0.3);
-                border-radius:50px;padding:8px 18px;font-size:13px;color:white;font-weight:600;'>
+                border-radius:50px;padding:8px 18px;font-size:13px;color:black;font-weight:600;'>
                 📊 Market Analytics
             </div>
         </div>
