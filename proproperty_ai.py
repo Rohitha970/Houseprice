@@ -13,7 +13,6 @@ from datetime import datetime
 from sqlalchemy import create_engine, text
 from streamlit_folium import st_folium
 from PIL import Image
-<<<<<<< HEAD
 try: 
 =======
 
