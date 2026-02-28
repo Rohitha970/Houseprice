@@ -66,10 +66,10 @@ p, span, h1, h2, h3, h4 { color: #1e293b !important; }
 .stTabs [data-baseweb="tab"] { border-radius: 8px !important; font-size: 14px !important;
     font-weight: 600 !important; color: #1e3a8a !important; padding: 10px 16px !important;
     background: transparent !important; white-space: nowrap !important; }
-.stTabs [aria-selected="true"] { background: linear-gradient(135deg,#1e3a8a,#1d4ed8) !important; color: white !important; }
+.stTabs [aria-selected="true"] { background: linear-gradient(135deg, #ffffff, #eef4ff); !important; color: white !important; }
 
 /* Buttons */
-.stButton > button { background: linear-gradient(135deg,#1d4ed8,#1e40af) !important;
+.stButton > button { background: linear-gradient(135deg, #ffd700, #ffc107); !important;
     color: white !important; border: none !important; border-radius: 12px !important;
     font-weight: 700 !important; font-size: 15px !important;
     padding: 14px 20px !important; transition: all .2s !important; width: 100% !important; }
@@ -534,13 +534,13 @@ if not st.session_state.logged_in:
     <div style='text-align:center;padding:40px 20px 20px;'>
         <div style='font-size:64px;'>🏙️</div>
         <div style='font-size:40px;font-weight:800;color:white;letter-spacing:-1.5px;margin-top:10px;'>
-            House Price<span style='color:#93c5fd;'>Prediction</span>
+            HousePrice<span style='color:#93c5fd;'>Prediction</span>
         </div>
         <div style='color:rgba(255,255,255,0.85);font-size:16px;margin-top:10px;font-weight:500;'>
             ML-Powered Real Estate Valuation Platform
         </div>
         <div style='display:flex;justify-content:center;gap:16px;margin-top:20px;flex-wrap:wrap;'>
-            <div style='background:linear-gradient(135deg, #ffffff, #eef4ff);border:1px solid rgba(255,255,255,0.3);
+            <div style='background:rgba(255,255,255,0.95);border:1px solid rgba(255,255,255,0.3);
                 border-radius:50px;padding:8px 18px;font-size:13px;color:white;font-weight:600;'>
                 🏠 Instant Price Prediction
             </div>
@@ -548,7 +548,7 @@ if not st.session_state.logged_in:
                 border-radius:50px;padding:8px 18px;font-size:13px;color:white;font-weight:600;'>
                 📍 Live Location Map
             </div>
-            <div style='background:linear-gradient(135deg, #ffffff, #eef4ff);border:1px solid rgba(255,255,255,0.3);
+            <div style='background:rgba(255,255,255,0.95);;border:1px solid rgba(255,255,255,0.3);
                 border-radius:50px;padding:8px 18px;font-size:13px;color:white;font-weight:600;'>
                 📊 Market Analytics
             </div>
@@ -1175,6 +1175,6 @@ st.markdown("""
 <div style='text-align:center;color:#9ca3af;font-size:12px;
      margin-top:40px;padding:16px 0;border-top:1px solid #e0e7ff;'>
     🏙️ ProProperty AI &nbsp;·&nbsp;
-    ML-Powered Real Estate Valuation &nbsp;·&nbsp; Final Year Project
+    ML-Powered Real Estate Valuation &nbsp;·&nbsp; 
 </div>
 """, unsafe_allow_html=True)
