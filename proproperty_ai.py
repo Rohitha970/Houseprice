@@ -1031,7 +1031,7 @@ with tab_analytics:
             font_family="Inter", title_font_size=15,
             
             legend_title="Segment",
-            xaxis=dict(tickangle=-30),
+            
          font=dict(color="#000000"),
      xaxis=dict(tickangle=-30, color="#000000"),  # x-axis labels
     yaxis=dict(color="#000000")
