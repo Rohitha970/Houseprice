@@ -13,11 +13,10 @@ from datetime import datetime
 from sqlalchemy import create_engine, text
 from streamlit_folium import st_folium
 from PIL import Image
-try: 
-=======
+
 
 try:
->>>>>>> a3db4cf ( Deployment fix: cleaned python file and updated Streamlit app)
+ 
     from streamlit_js_eval import get_geolocation
     GPS_AVAILABLE = True
 except ImportError:
