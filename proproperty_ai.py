@@ -534,21 +534,21 @@ if not st.session_state.logged_in:
     <div style='text-align:center;padding:40px 20px 20px;'>
         <div style='font-size:64px;'>🏙️</div>
         <div style='font-size:40px;font-weight:800;color:white;letter-spacing:-1.5px;margin-top:10px;'>
-            ProProperty <span style='color:#93c5fd;'>AI</span>
+            House Price<span style='color:#93c5fd;'>Prediction</span>
         </div>
         <div style='color:rgba(255,255,255,0.85);font-size:16px;margin-top:10px;font-weight:500;'>
             ML-Powered Real Estate Valuation Platform
         </div>
         <div style='display:flex;justify-content:center;gap:16px;margin-top:20px;flex-wrap:wrap;'>
-            <div style='background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);
+            <div style='background:linear-gradient(135deg, #ffffff, #eef4ff);border:1px solid rgba(255,255,255,0.3);
                 border-radius:50px;padding:8px 18px;font-size:13px;color:white;font-weight:600;'>
                 🏠 Instant Price Prediction
             </div>
-            <div style='background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);
+            <div style='background: linear-gradient(135deg, #f0e6ff, #d6ccff);border:1px solid rgba(255,255,255,0.3);
                 border-radius:50px;padding:8px 18px;font-size:13px;color:white;font-weight:600;'>
                 📍 Live Location Map
             </div>
-            <div style='background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);
+            <div style='background:linear-gradient(135deg, #ffffff, #eef4ff);border:1px solid rgba(255,255,255,0.3);
                 border-radius:50px;padding:8px 18px;font-size:13px;color:white;font-weight:600;'>
                 📊 Market Analytics
             </div>
