@@ -1027,16 +1027,24 @@ with tab_analytics:
             labels={"predicted_price": "Price (₹)", "state": "State"}
          
         )
-        fig1.update_layout(
-            paper_bgcolor="white", plot_bgcolor="#f0f9ff",
-            font_family="Inter", title_font_size=15,
-            
-            legend_title="Segment",
-            
-         font=dict(color="#000000"),
-     xaxis=dict(tickangle=-30, color="#000000"),  # x-axis labels
-    yaxis=dict(color="#000000")
-        )
+     fig1.update_layout(
+    paper_bgcolor="white",
+    plot_bgcolor="#f0f9ff",
+    font_family="Inter",
+    title_font_size=13 if is_mobile else 15,
+    legend_title="Segment",
+    font=dict(color="#000000", size=10 if is_mobile else 12),
+    xaxis=dict(
+        tickangle=-45 if is_mobile else -30,
+        color="#000000",
+        automargin=True
+    ),
+    yaxis=dict(color="#000000", automargin=True),
+    margin=dict(l=10, r=10, t=40, b=60 if is_mobile else 40),
+    height=350 if is_mobile else 450
+)
+       
+        
         ch1.plotly_chart(fig1, use_container_width=True)
 
         # Chart 2 — Scatter
@@ -1047,15 +1055,18 @@ with tab_analytics:
             color_discrete_map=SEG_COLORS,
             labels={"predicted_price": "Price (₹)", "area": "Area (sq ft)"}
         )
-        fig2.update_layout(
-            paper_bgcolor="white", plot_bgcolor="#fdf4ff",
-            font_family="Inter", title_font_size=15,
-            
-         font=dict(color="#000000"),
-    xaxis=dict(color="#000000"),
-    yaxis=dict(color="#000000")
-         
-        )
+fig2.update_layout(
+    paper_bgcolor="white",
+    plot_bgcolor="#fdf4ff",
+    font_family="Inter",
+    title_font_size=13 if is_mobile else 15,
+    font=dict(color="#000000", size=10 if is_mobile else 12),
+    xaxis=dict(color="#000000", automargin=True),
+    yaxis=dict(color="#000000", automargin=True),
+    margin=dict(l=10, r=10, t=40, b=40),
+    height=350 if is_mobile else 450
+)
+        
         ch2.plotly_chart(fig2, use_container_width=True)
 
         # Chart 3 — Furnishing (only show if multiple furnishing types)
@@ -1073,13 +1084,16 @@ with tab_analytics:
                 color_discrete_sequence=["#8b5cf6"],
                 labels={"predicted_price": "Price (₹)", "furnishing": "Furnishing"}
             )
-        fig3.update_layout(
-            paper_bgcolor="white", plot_bgcolor="#fefce8",
-            font_family="Inter", showlegend=False, title_font_size=15,
-            font=dict(color="#000000"),
-    xaxis=dict(color="#000000"),
-    yaxis=dict(color="#000000")
-        )
+         fig3.update_layout(
+    paper_bgcolor="white",
+    plot_bgcolor="#fefce8",
+    font_family="Inter",
+    title_font_size=13 if is_mobile else 15,
+    font=dict(color="#000000", size=10 if is_mobile else 12),
+    margin=dict(l=10, r=10, t=40, b=40),
+    height=350 if is_mobile else 450
+)
+        
         st.plotly_chart(fig3, use_container_width=True)
 
         # Chart 4 — Segment count
@@ -1092,14 +1106,16 @@ with tab_analytics:
             labels={"count": "Number of Valuations", "segment": "Segment"},
             text="count"
         )
-        fig4.update_traces(textposition="outside", textfont_size=14)
-        fig4.update_layout(
-            paper_bgcolor="white", plot_bgcolor="#f0fdf4",
-            font_family="Inter", showlegend=False, title_font_size=15,
-            font=dict(color="#000000"),
-    xaxis=dict(color="#000000"),
-    yaxis=dict(color="#000000")
-        )
+fig4.update_layout(
+    paper_bgcolor="white",
+    plot_bgcolor="#f0fdf4",
+    font_family="Inter",
+    title_font_size=13 if is_mobile else 15,
+    font=dict(color="#000000", size=10 if is_mobile else 12),
+    margin=dict(l=10, r=10, t=40, b=40),
+    height=350 if is_mobile else 450
+)
+        
         st.plotly_chart(fig4, use_container_width=True)
 
         with st.expander("📋 Full Prediction History"):
