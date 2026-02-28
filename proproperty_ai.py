@@ -69,7 +69,7 @@ p, span, h1, h2, h3, h4 { color: #1e293b !important; }
 .stTabs [aria-selected="true"] { background: linear-gradient(135deg, #ffffff, #eef4ff); !important; color: white !important; }
 
 /* Buttons */
-.stButton > button { background: linear-gradient(135deg, #ffd700, #ffc107); !important;
+.stButton > button { background: linear-gradient(135deg, #fff0e6, #ffe0cc);!important;
     color: white !important; border: none !important; border-radius: 12px !important;
     font-weight: 700 !important; font-size: 15px !important;
     padding: 14px 20px !important; transition: all .2s !important; width: 100% !important; }
@@ -1022,13 +1022,17 @@ with tab_analytics:
             barmode="group", title="🏙️ State-wise Price Distribution",
             color_discrete_map=SEG_COLORS,
             labels={"predicted_price": "Price (₹)", "state": "State"}
+         
         )
         fig1.update_layout(
             paper_bgcolor="white", plot_bgcolor="#f0f9ff",
             font_family="Inter", title_font_size=15,
             font=dict(color="#1e293b"),
             legend_title="Segment",
-            xaxis=dict(tickangle=-30)
+            xaxis=dict(tickangle=-30),
+         font=dict(color="#000000"),
+     xaxis=dict(tickangle=-30, color="#000000"),  # x-axis labels
+    yaxis=dict(color="#000000")
         )
         ch1.plotly_chart(fig1, use_container_width=True)
 
@@ -1043,7 +1047,11 @@ with tab_analytics:
         fig2.update_layout(
             paper_bgcolor="white", plot_bgcolor="#fdf4ff",
             font_family="Inter", title_font_size=15,
-            font=dict(color="#1e293b")
+            
+         font=dict(color="#000000"),
+    xaxis=dict(color="#000000"),
+    yaxis=dict(color="#000000")
+         
         )
         ch2.plotly_chart(fig2, use_container_width=True)
 
@@ -1065,7 +1073,9 @@ with tab_analytics:
         fig3.update_layout(
             paper_bgcolor="white", plot_bgcolor="#fefce8",
             font_family="Inter", showlegend=False, title_font_size=15,
-            font=dict(color="#1e293b")
+            font=dict(color="#000000"),
+    xaxis=dict(color="#000000"),
+    yaxis=dict(color="#000000")
         )
         st.plotly_chart(fig3, use_container_width=True)
 
@@ -1083,7 +1093,9 @@ with tab_analytics:
         fig4.update_layout(
             paper_bgcolor="white", plot_bgcolor="#f0fdf4",
             font_family="Inter", showlegend=False, title_font_size=15,
-            font=dict(color="#1e293b")
+            font=dict(color="#000000"),
+    xaxis=dict(color="#000000"),
+    yaxis=dict(color="#000000")
         )
         st.plotly_chart(fig4, use_container_width=True)
 
