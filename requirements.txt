@@ -1,0 +1,12 @@
+streamlit
+pandas
+scikit-learn
+joblib
+plotly
+folium
+streamlit-folium
+sqlalchemy
+psycopg2-binary
+requests
+pillow
+python-dotenv
