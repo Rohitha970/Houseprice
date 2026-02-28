@@ -1027,7 +1027,7 @@ with tab_analytics:
         fig1.update_layout(
             paper_bgcolor="white", plot_bgcolor="#f0f9ff",
             font_family="Inter", title_font_size=15,
-            font=dict(color="#1e293b"),
+            
             legend_title="Segment",
             xaxis=dict(tickangle=-30),
          font=dict(color="#000000"),
