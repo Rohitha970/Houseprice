@@ -337,6 +337,9 @@ button[data-testid="btn_logout_val"] {
     [data-testid="metric-container"] [data-testid="stMetricValue"] { font-size: 16px !important; }
     .stTabs [data-baseweb="tab"] { font-size: 10px !important; padding: 7px 8px !important; }
 }
+body, .stApp {
+    color: #0d1f3c !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
