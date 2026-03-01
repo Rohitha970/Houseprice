@@ -315,7 +315,18 @@ div[data-testid="column"]:last-child .stButton > button {
 # ── MEDIA FOLDER & DATABASE ──────────────────────────────────────
 os.makedirs("property_media", exist_ok=True)
 DB_PATH = "/tmp/proproperty.db"
-engine  = create_engine(f"sqlite:///{DB_PATH}", connect_args={"check_same_thread": False})
+@st.cache_resource
+def get_engine():
+    return create_engine(
+        f"sqlite:///{DB_PATH}",
+        connect_args={"check_same_thread": False},
+        pool_size=1,
+        max_overflow=0,
+        pool_pre_ping=True,
+        pool_recycle=300,
+    )
+
+engine = get_engine()
 
 
 def init_db():
