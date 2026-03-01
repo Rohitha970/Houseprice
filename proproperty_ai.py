@@ -771,10 +771,13 @@ if tn2.button("🚪 Logout"):
 st.markdown("<div style='height:16px'></div>", unsafe_allow_html=True)
 
 
+
 @st.cache_data(ttl=20)
 def get_history():
     try:
-        return pd.read_sql("SELECT * FROM predictions ORDER BY timestamp DESC", engine)
+        # Use an explicit connection context manager to ensure it closes
+        with engine.connect() as con:
+            return pd.read_sql(text("SELECT * FROM predictions ORDER BY timestamp DESC"), con)
     except Exception:
         return pd.DataFrame()
 
@@ -857,11 +860,13 @@ with tab_val:
         photos = st.file_uploader("📷 Photos (JPG/PNG)",
                                   type=["jpg","jpeg","png","webp"],
                                   accept_multiple_files=True,
-                                  key="photo_upload")
-        if photos:
-            img_cols = st.columns(min(len(photos), 3))
-            for i, ph in enumerate(photos[:3]):
-                img_cols[i].image(Image.open(ph), use_container_width=True, caption=f"Photo {i+1}")
+    if photos:
+        img_cols = st.columns(min(len(photos), 3))
+        for i, ph in enumerate(photos[:3]):
+        # Use a 'with' block for the PIL Image to close the handle after rendering
+            with Image.open(ph) as img:
+                img_cols[i].image(img, use_container_width=True, caption=f"Photo {i+1}")                          key="photo_upload")
+        
     with mu2:
         video = st.file_uploader("🎥 Video (MP4/MOV)", type=["mp4","mov","avi"], key="video_upload")
         if video:
