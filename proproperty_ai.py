@@ -113,7 +113,7 @@ html, body { overflow-x: hidden !important; max-width: 100vw !important; }
 .stTabs [data-baseweb="tab"] span { color: inherit !important; }
 .stTabs [aria-selected="true"] {
     background: #1648ff !important;
-    color: white !important;
+    
     box-shadow: 0 4px 14px rgba(22,72,255,0.35) !important;
 }
 .stTabs [aria-selected="true"] p,
