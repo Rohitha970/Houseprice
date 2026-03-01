@@ -123,7 +123,7 @@ html, body { overflow-x: hidden !important; max-width: 100vw !important; }
 /* ── BUTTONS ── */
 .stButton > button {
     background: linear-gradient(135deg, #1648ff, #2d6cff) !important;
-    color: white !important;
+    color: black;
     border: none !important;
     border-radius: 12px !important;
     font-weight: 800 !important;
@@ -596,7 +596,7 @@ if not st.session_state.logged_in:
         background: linear-gradient(145deg, #020b18 0%, #061433 40%, #0a2070 75%, #1648ff 100%) !important;
     }
     /* Force ALL text white on the dark login background */
-    p, span, div, label, h1, h2, h3, h4, h5, h6, li { color: white !important; }
+    p, span,  label, h1, h2, h3, h4, h5, h6, li { color: white ; }
     .stTextInput label { color: white !important; font-weight: 700 !important; }
     .stTextInput input {
         background: rgba(255,255,255,0.12) !important;
