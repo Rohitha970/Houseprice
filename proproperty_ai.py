@@ -761,10 +761,10 @@ if not st.session_state.logged_in:
         <div style='font-size:clamp(52px,11vw,80px);filter:drop-shadow(0 4px 20px rgba(22,72,255,0.6));'>🏙️</div>
         <div style='font-size:clamp(28px,7vw,52px);font-weight:900;color:white;
              letter-spacing:-1.5px;margin-top:12px;line-height:1.1;'>
-            ProProperty
+            HousePrice
             <span style='background:linear-gradient(135deg,#00d4ff,#1648ff);
                   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-                  background-clip:text;'>AI</span>
+                  background-clip:text;'>Prediction</span>
         </div>
         <div style='color:rgba(255,255,255,0.7);font-size:clamp(13px,3vw,17px);
              margin-top:10px;font-weight:500;letter-spacing:0.3px;'>
@@ -801,7 +801,7 @@ if not st.session_state.logged_in:
                 padding:clamp(20px,5vw,32px) clamp(16px,4vw,28px);
                 text-align:center;margin-bottom:20px;'>
                 <div style='font-size:clamp(22px,5vw,30px);font-weight:900;color:white;'>
-                    hey, Welcome back
+                    Hey, Welcome back
                 </div>
                 <div style='font-size:clamp(13px,3vw,15px);color:rgba(255,255,255,0.65);margin-top:6px;'>
                 login to continue
@@ -813,7 +813,7 @@ if not st.session_state.logged_in:
             lp = st.text_input("Password", type="password", placeholder="Enter your password", key="li_p")
             st.markdown("<br>", unsafe_allow_html=True)
 
-            if st.button("Login →", use_container_width=True, key="btn_login"):
+            if st.button("Login", use_container_width=True, key="btn_login"):
                 if not lu or not lp:
                     st.error("enter your username and password.")
                 else:
@@ -922,14 +922,14 @@ tab_val, tab_analytics, tab_map = st.tabs([
 # ════════════════════════════════════════════════════════════════
 with tab_val:
 
-    st.markdown('<div class="sec-head">📍 &nbsp;House Details</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-head">📍 &nbsp; Property Location</div>', unsafe_allow_html=True)
 
     country = st.selectbox("Country", list(COUNTRY_STATES.keys()))
     state   = st.selectbox("State",
                              ["Select State"] + COUNTRY_STATES.get(country, []))
 
     lc3, lc4 = st.columns(2)
-    pincode = lc3.text_input("Pincode", placeholder="Auto-fills city")
+    pincode = lc3.text_input("Pincode", placeholder="Enter Pincode")
 
     if pincode and len(pincode.strip()) >= 4 and pincode != st.session_state["_last_pin"]:
         cc = COUNTRY_CODES.get(country, "IN")
@@ -946,7 +946,7 @@ with tab_val:
             st.session_state["_last_pin"] = pincode
 
     city = lc4.text_input("🏙️ City", value=st.session_state.auto_city,
-                          placeholder="Auto-filled from pincode")
+                          placeholder="Fetching from pincode")
 
     # ── PROPERTY DETAILS ─────────────────────────────────────────
     st.markdown('<div class="sec-head">📐 &nbsp;Property Details</div>', unsafe_allow_html=True)
@@ -1482,10 +1482,10 @@ st.markdown("""
 <div style='text-align:center;margin-top:40px;padding:20px 8px 10px;
      border-top:2px solid #e8efff;'>
     <div style='font-size:13px;font-weight:700;color:#1648ff;'>
-        🏙️ House Price Prediction
+        🏙️ PROPERTY PREDICTION
     </div>
     <div style='font-size:11px;color:#8a9abc;margin-top:4px;font-weight:500;'>
-        ML-Powered Real Estate Valuation &nbsp;·&nbsp; Final Year Project
+        House Price Predictor  &nbsp;·&nbsp;
     </div>
 </div>
 """, unsafe_allow_html=True)
