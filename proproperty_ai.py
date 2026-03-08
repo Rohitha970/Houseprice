@@ -952,7 +952,7 @@ with tab_val:
     st.markdown('<div class="sec-head">📐 &nbsp;Property Details</div>', unsafe_allow_html=True)
 
     pd1, pd2 = st.columns(2)
-    area      = pd1.number_input("Area (sq ft)", 100, 50000, 1200, step=50)
+    area      = pd1.number_input("Total Area", 100, 50000, 1200, step=50)
     bedrooms  = pd2.number_input("No of Bedrooms",       1,    10,    3)
 
     pd3, pd4 = st.columns(2)
@@ -960,7 +960,7 @@ with tab_val:
     stories   = pd4.number_input("No of Floors",          1,    10,    2)
 
     pd5, pd6 = st.columns(2)
-    parking    = pd5.number_input("Parking",        0,     5,    1)
+    parking    = pd5.number_input("Parking Place",        0,     5,    1)
     furnishing = pd6.selectbox("Furnishing",
                                ["Fully Furnished", "Semi-Furnished", "Unfurnished"])
 
@@ -973,15 +973,15 @@ with tab_val:
     guestroom       = am2.toggle("Guest Room")
 
     am3, am4 = st.columns(2)
-    basement        = am3.toggle("Basement")
+    basement        = am3.toggle("Underground Floor")
     hotwaterheating = am4.toggle("Hot Water")
 
     am5, am6 = st.columns(2)
-    airconditioning = am5.toggle("AC")
-    prefarea        = am6.toggle("Preferred Area")
+    airconditioning = am5.toggle("Air Conditioning")
+    prefarea        = am6.toggle("Prime Location")
 
     # ── MEDIA UPLOAD ─────────────────────────────────────────────
-    st.markdown('<div class="sec-head">&nbsp;Property Media </div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-head">&nbsp;Property Visuals </div>', unsafe_allow_html=True)
 
     mu1, mu2 = st.columns(2)
     with mu1:
@@ -1165,12 +1165,9 @@ with tab_val:
              border:2px solid #e8efff;text-align:center;'>
             <div style='font-size:clamp(18px,4vw,26px);font-weight:900;color:#0d1f3c;
                  letter-spacing:-0.3px;'>
-                Price of the property
+                Property Rate
             </div>
-            <div style='font-size:clamp(11px,2.5vw,13px);color:#ff3d6b;
-                 font-weight:700;margin-top:4px;letter-spacing:0.5px;'>
-            Machine learning
-            </div>
+            
         </div>
         """, unsafe_allow_html=True)
 
