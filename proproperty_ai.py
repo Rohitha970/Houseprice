@@ -886,7 +886,7 @@ st.markdown(f"""
         <div>
             <div style='font-size:clamp(15px,3.2vw,20px);font-weight:900;
                  color:#0d1f3c;letter-spacing:-0.3px;'>
-                House Price Prediction<span style='color:#1648ff;'>AI</span>
+                House Price Prediction
             </div>
             <div style='font-size:clamp(10px,2vw,12px);color:#5a6a8a;
                  font-weight:600;margin-top:1px;'>
@@ -1283,10 +1283,10 @@ with tab_analytics:
 
         k1, k2 = st.columns(2)
         k1.metric("Total Valuations",  f"{len(df_hist):,}")
-        k2.metric("Avg Price",          f"₹{df_hist['predicted_price'].mean():,.0f}")
+        k2.metric("Price",          f"₹{df_hist['predicted_price'].mean():,.0f}")
         k3, k4 = st.columns(2)
-        k3.metric("Avg Area",           f"{df_hist['area'].mean():,.0f} sq ft")
-        k4.metric("Avg ₹/Sq Ft",        f"₹{df_hist['price_per_sqft'].mean():,.0f}")
+        k3.metric("Total Area",           f"{df_hist['area'].mean():,.0f} sq ft")
+        k4.metric("Price Per Square Foot",        f"₹{df_hist['price_per_sqft'].mean():,.0f}")
 
         st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
 
