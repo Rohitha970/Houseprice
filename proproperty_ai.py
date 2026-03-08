@@ -23,15 +23,13 @@ except ImportError:
 
 # ── PAGE CONFIG ──────────────────────────────────────────────────
 st.set_page_config(
-    page_title="ProProperty AI",
+    page_title="House price prediction",
     page_icon="🏙️",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
 
-# ════════════════════════════════════════════════════════════════
 #  GLOBAL STYLES — Bold, vibrant, fully mobile-first
-# ════════════════════════════════════════════════════════════════
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
@@ -610,10 +608,10 @@ def build_input(inp):
 
 
 def price_segment(p):
-    if   p < 3_000_000:  return "Affordable", "🟢"
+    if   p < 3_000_000:  return "Low-Range", "🟢"
     elif p < 8_000_000:  return "Mid-Range",   "🟡"
-    elif p < 20_000_000: return "Premium",     "🟠"
-    else:                return "Luxury",       "🔴"
+    elif p < 20_000_000: return "High-Range",     "🟠"
+    else:                return "Top-Range",       "🔴"
 
 
 def save_prediction(username, inp, price, segment, lat, lon, media_paths=""):
@@ -776,17 +774,17 @@ if not st.session_state.logged_in:
             <span class='login-badge-cyan' style='background:rgba(22,72,255,0.3);border:1px solid rgba(0,212,255,0.4);
                 border-radius:50px;padding:8px 16px;font-size:clamp(11px,2.5vw,13px);
                 font-weight:700;backdrop-filter:blur(8px);display:inline-block;'>
-                ⚡ Instant AI Prediction
+                  House price Prediction
             </span>
             <span class='login-badge-green' style='background:rgba(0,200,150,0.2);border:1px solid rgba(0,200,150,0.4);
                 border-radius:50px;padding:8px 16px;font-size:clamp(11px,2.5vw,13px);
                 font-weight:700;backdrop-filter:blur(8px);display:inline-block;'>
-                📍 Live Location Map
+                 Location Map
             </span>
             <span class='login-badge-yellow' style='background:rgba(255,179,0,0.2);border:1px solid rgba(255,179,0,0.4);
                 border-radius:50px;padding:8px 16px;font-size:clamp(11px,2.5vw,13px);
                 font-weight:700;backdrop-filter:blur(8px);display:inline-block;'>
-                📊 Market Analytics
+                Graph Analytics
             </span>
         </div>
     </div>
@@ -803,10 +801,10 @@ if not st.session_state.logged_in:
                 padding:clamp(20px,5vw,32px) clamp(16px,4vw,28px);
                 text-align:center;margin-bottom:20px;'>
                 <div style='font-size:clamp(22px,5vw,30px);font-weight:900;color:white;'>
-                    Welcome Back 👋
+                    Welcome
                 </div>
                 <div style='font-size:clamp(13px,3vw,15px);color:rgba(255,255,255,0.65);margin-top:6px;'>
-                    Sign in to continue
+                    Sign in 
                 </div>
             </div>
             """, unsafe_allow_html=True)
@@ -815,7 +813,7 @@ if not st.session_state.logged_in:
             lp = st.text_input("🔒 Password", type="password", placeholder="Enter your password", key="li_p")
             st.markdown("<br>", unsafe_allow_html=True)
 
-            if st.button("🚀 Login →", use_container_width=True, key="btn_login"):
+            if st.button("Login →", use_container_width=True, key="btn_login"):
                 if not lu or not lp:
                     st.error("Please enter your username and password.")
                 else:
@@ -828,7 +826,7 @@ if not st.session_state.logged_in:
                         st.error(f"❌ {msg}")
 
             st.markdown("<br>", unsafe_allow_html=True)
-            if st.button("✨ Create New Account →", use_container_width=True, key="to_reg"):
+            if st.button("Register", use_container_width=True, key="to_reg"):
                 st.session_state.page = "register"
                 st.rerun()
 
@@ -840,7 +838,7 @@ if not st.session_state.logged_in:
                 padding:clamp(20px,5vw,32px) clamp(16px,4vw,28px);
                 text-align:center;margin-bottom:20px;'>
                 <div style='font-size:clamp(22px,5vw,30px);font-weight:900;color:white;'>
-                    Create Account 🚀
+                    Create Account 
                 </div>
                 <div style='font-size:clamp(13px,3vw,15px);color:rgba(255,255,255,0.65);margin-top:6px;'>
                     Join ProProperty AI — it's free!
@@ -853,20 +851,20 @@ if not st.session_state.logged_in:
             rp2 = st.text_input("🔒 Confirm Password", type="password", placeholder="Repeat password",   key="re_p2")
             st.markdown("<br>", unsafe_allow_html=True)
 
-            if st.button("✅ Create Account", use_container_width=True, key="btn_reg"):
+            if st.button("Create Account", use_container_width=True, key="btn_reg"):
                 if not ru or not rp:
                     st.error("Please fill in all fields.")
                 elif rp != rp2:
-                    st.error("❌ Passwords do not match.")
+                    st.error("Passwords do not match.")
                 else:
                     ok, _ = register_user(ru, rp)
                     if ok:
-                        st.success("✅ Account created! Please log in.")
+                        st.success("Account created! Please log in.")
                         time.sleep(1.5)
                         st.session_state.page = "login"
                         st.rerun()
                     else:
-                        st.error("❌ Username already taken.")
+                        st.error("Username already taken.")
 
             if st.button("← Back to Login", use_container_width=True, key="back_login"):
                 st.session_state.page = "login"
@@ -916,7 +914,7 @@ def get_history():
 df_hist = get_history()
 
 tab_val, tab_analytics, tab_map = st.tabs([
-    "💎 Valuation", "📈 Analytics", "📍 Map"
+    " Valuation", " Analytics", " Map"
 ])
 
 # ════════════════════════════════════════════════════════════════
@@ -926,16 +924,16 @@ with tab_val:
 
     st.markdown('<div class="sec-head">📍 &nbsp;Location Details</div>', unsafe_allow_html=True)
 
-    country = st.selectbox("🌍 Country", list(COUNTRY_STATES.keys()))
-    state   = st.selectbox("🗺️ State / Province",
-                             ["— Select State —"] + COUNTRY_STATES.get(country, []))
+    country = st.selectbox("Country", list(COUNTRY_STATES.keys()))
+    state   = st.selectbox("State",
+                             ["Select State"] + COUNTRY_STATES.get(country, []))
 
     lc3, lc4 = st.columns(2)
-    pincode = lc3.text_input("📮 Pincode / ZIP", placeholder="Auto-fills city")
+    pincode = lc3.text_input("Pincode", placeholder="Auto-fills city")
 
     if pincode and len(pincode.strip()) >= 4 and pincode != st.session_state["_last_pin"]:
         cc = COUNTRY_CODES.get(country, "IN")
-        with st.spinner("🔍 Auto-detecting city…"):
+        with st.spinner("Fetching city…"):
             res = lookup_pincode(pincode.strip(), cc)
         if res:
             st.session_state.auto_city = res.get("city", "")
@@ -944,7 +942,7 @@ with tab_val:
             st.session_state["_last_pin"] = pincode
             lc4.success(f"📍 **{st.session_state.auto_city}**")
         else:
-            lc4.info("ℹ️ Not found — enter city below.")
+            lc4.info("Not found please enter city")
             st.session_state["_last_pin"] = pincode
 
     city = lc4.text_input("🏙️ City", value=st.session_state.auto_city,
@@ -954,36 +952,36 @@ with tab_val:
     st.markdown('<div class="sec-head">📐 &nbsp;Property Details</div>', unsafe_allow_html=True)
 
     pd1, pd2 = st.columns(2)
-    area      = pd1.number_input("📏 Area (sq ft)", 100, 50000, 1200, step=50)
-    bedrooms  = pd2.number_input("🛏️ Bedrooms",       1,    10,    3)
+    area      = pd1.number_input("Area (sq ft)", 100, 50000, 1200, step=50)
+    bedrooms  = pd2.number_input("No of Bedrooms",       1,    10,    3)
 
     pd3, pd4 = st.columns(2)
-    bathrooms = pd3.number_input("🚿 Bathrooms",       1,    10,    2)
-    stories   = pd4.number_input("🏢 Floors",          1,    10,    2)
+    bathrooms = pd3.number_input("No of Bathrooms",       1,    10,    2)
+    stories   = pd4.number_input("No of Floors",          1,    10,    2)
 
     pd5, pd6 = st.columns(2)
-    parking    = pd5.number_input("🚗 Parking",        0,     5,    1)
-    furnishing = pd6.selectbox("🛋️ Furnishing",
+    parking    = pd5.number_input("Parking",        0,     5,    1)
+    furnishing = pd6.selectbox("Furnishing",
                                ["Fully Furnished", "Semi-Furnished", "Unfurnished"])
 
     # ── AMENITIES ────────────────────────────────────────────────
-    st.markdown('<div class="sec-head">✅ &nbsp;Property Amenities</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-head">✅ &nbsp;Property Facilities</div>', unsafe_allow_html=True)
     st.caption("Toggle all features that apply to this property:")
 
     am1, am2 = st.columns(2)
-    mainroad        = am1.toggle("🛣️ Main Road",   value=True)
-    guestroom       = am2.toggle("🛏️ Guest Room")
+    mainroad        = am1.toggle("Main Road",   value=True)
+    guestroom       = am2.toggle("Guest Room")
 
     am3, am4 = st.columns(2)
-    basement        = am3.toggle("🏚️ Basement")
-    hotwaterheating = am4.toggle("🔥 Hot Water")
+    basement        = am3.toggle("Basement")
+    hotwaterheating = am4.toggle("Hot Water")
 
     am5, am6 = st.columns(2)
-    airconditioning = am5.toggle("❄️ AC")
-    prefarea        = am6.toggle("⭐ Preferred Area")
+    airconditioning = am5.toggle("AC")
+    prefarea        = am6.toggle("Preferred Area")
 
     # ── MEDIA UPLOAD ─────────────────────────────────────────────
-    st.markdown('<div class="sec-head">📸 &nbsp;Property Media (Optional)</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-head">📸 &nbsp;Property Media </div>', unsafe_allow_html=True)
 
     mu1, mu2 = st.columns(2)
     with mu1:
@@ -1006,9 +1004,9 @@ with tab_val:
     lon = st.session_state.auto_lon
     with st.expander("🛰️ GPS Coordinates (auto-filled — expand to override)"):
         if lat != 0.0:
-            st.success(f"📍 Coordinates from pincode: **{lat:.4f}, {lon:.4f}**")
+            st.success(f"Coordinates from pincode: **{lat:.4f}, {lon:.4f}**")
         if GPS_AVAILABLE:
-            if st.toggle("📡 Use live device GPS", key="gps_toggle"):
+            if st.toggle("live GPS", key="gps_toggle"):
                 loc = get_geolocation()
                 if loc and "coords" in loc:
                     lat = loc["coords"]["latitude"]
@@ -1019,7 +1017,7 @@ with tab_val:
         lon = g2.number_input("Longitude", value=float(lon), format="%.5f")
 
     # ── PRICE SEGMENT GUIDE — vivid gradient cards ────────────────
-    st.markdown('<div class="sec-head">💡 &nbsp;Price Segment Guide</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-head">💡 &nbsp;Price Segment </div>', unsafe_allow_html=True)
 
     pg1, pg2 = st.columns(2)
     with pg1:
@@ -1027,7 +1025,7 @@ with tab_val:
         <div style='background:linear-gradient(135deg,#00874a,#00c896);
             border-radius:14px;padding:clamp(12px,3vw,18px);margin-bottom:10px;
             box-shadow:0 6px 20px rgba(0,200,150,0.35);'>
-            <div style='font-size:clamp(16px,3.5vw,21px);font-weight:900;color:white;'>🟢 Affordable</div>
+            <div style='font-size:clamp(16px,3.5vw,21px);font-weight:900;color:white;'>🟢 Low-Range</div>
             <div style='font-size:clamp(13px,2.8vw,16px);font-weight:700;color:rgba(255,255,255,0.95);margin-top:5px;'>Under ₹30 Lakhs</div>
             <div style='font-size:clamp(11px,2.2vw,13px);color:rgba(255,255,255,0.8);margin-top:4px;'>Entry-level & budget homes</div>
         </div>""", unsafe_allow_html=True)
@@ -1046,7 +1044,7 @@ with tab_val:
         <div style='background:linear-gradient(135deg,#c97000,#ffb300);
             border-radius:14px;padding:clamp(12px,3vw,18px);margin-bottom:10px;
             box-shadow:0 6px 20px rgba(255,179,0,0.4);'>
-            <div style='font-size:clamp(16px,3.5vw,21px);font-weight:900;color:white;'>🟡 Premium</div>
+            <div style='font-size:clamp(16px,3.5vw,21px);font-weight:900;color:white;'>🟡High-Range</div>
             <div style='font-size:clamp(13px,2.8vw,16px);font-weight:700;color:rgba(255,255,255,0.95);margin-top:5px;'>₹80L – ₹2 Crore</div>
             <div style='font-size:clamp(11px,2.2vw,13px);color:rgba(255,255,255,0.8);margin-top:4px;'>High-end city apartments</div>
         </div>""", unsafe_allow_html=True)
@@ -1055,22 +1053,22 @@ with tab_val:
         <div style='background:linear-gradient(135deg,#b5003a,#ff3d6b);
             border-radius:14px;padding:clamp(12px,3vw,18px);margin-bottom:10px;
             box-shadow:0 6px 20px rgba(255,61,107,0.4);'>
-            <div style='font-size:clamp(16px,3.5vw,21px);font-weight:900;color:white;'>💎 Luxury</div>
+            <div style='font-size:clamp(16px,3.5vw,21px);font-weight:900;color:white;'>💎Top-Range</div>
             <div style='font-size:clamp(13px,2.8vw,16px);font-weight:700;color:rgba(255,255,255,0.95);margin-top:5px;'>Above ₹2 Crore</div>
             <div style='font-size:clamp(11px,2.2vw,13px);color:rgba(255,255,255,0.8);margin-top:4px;'>Villas, penthouses & prime</div>
         </div>""", unsafe_allow_html=True)
 
     st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
 
-    if st.button("🔮 Run AI Property Valuation", use_container_width=True, key="btn_valuate"):
+    if st.button("🔮Predict Your House Price", use_container_width=True, key="btn_valuate"):
         if model is None:
-            st.error("❌ Model files not found. Place `house_model.pkl` and `model_columns.pkl` in the project folder.")
+            st.error(" files not found. Place `house_model.pkl` and `model_columns.pkl` in the project folder.")
         elif state == "— Select State —":
-            st.warning("⚠️ Please select your state.")
+            st.warning("select state.")
         elif not city.strip():
-            st.warning("⚠️ City is required.")
+            st.warning("City is required.")
         elif area < 100:
-            st.warning("⚠️ Please enter a valid area (min 100 sq ft).")
+            st.warning("enter a correct area.")
         else:
             media_names = []
             if photos:
@@ -1087,7 +1085,7 @@ with tab_val:
                 media_names.append(fname)
 
             if lat == 0.0 or lon == 0.0:
-                with st.spinner("📍 Locating property on map…"):
+                with st.spinner("view location of the propery"):
                     lat, lon = geocode_address(city, state, country)
 
             inputs = dict(
@@ -1097,7 +1095,7 @@ with tab_val:
                 guestroom=guestroom, basement=basement, hotwaterheating=hotwaterheating,
                 airconditioning=airconditioning, prefarea=prefarea, furnishing=furnishing,
             )
-            with st.spinner("🤖 Running AI valuation…"):
+            with st.spinner("Predicting the Price"):
                 input_df   = build_input(inputs)
                 prediction = float(model.predict(input_df)[0])
                 segment, emoji = price_segment(prediction)
@@ -1138,7 +1136,7 @@ with tab_val:
 """, unsafe_allow_html=True)
 
     st.markdown("<div style='height:6px'></div>", unsafe_allow_html=True)
-    if st.button("🚪 Logout", use_container_width=True, key="btn_logout_val"):
+    if st.button("Logout", use_container_width=True, key="btn_logout_val"):
         for k in defaults:
             st.session_state[k] = defaults[k]
         st.rerun()
@@ -1167,36 +1165,36 @@ with tab_val:
              border:2px solid #e8efff;text-align:center;'>
             <div style='font-size:clamp(18px,4vw,26px);font-weight:900;color:#0d1f3c;
                  letter-spacing:-0.3px;'>
-                🏠 AI Valuation Result
+                Price of the property
             </div>
             <div style='font-size:clamp(11px,2.5vw,13px);color:#ff3d6b;
                  font-weight:700;margin-top:4px;letter-spacing:0.5px;'>
-                ✨ POWERED BY MACHINE LEARNING
+            Machine learning
             </div>
         </div>
         """, unsafe_allow_html=True)
 
         # Full-width price card first, then 2-col below — works perfectly on mobile
-        st.metric("💰 Predicted Price", f"₹{prediction:,.0f}",
+        st.metric("House Price", f"₹{prediction:,.0f}",
                   delta=f"Range: ₹{low:,.0f} – ₹{high:,.0f}")
         rc2, rc3 = st.columns(2)
-        rc2.metric("📐 ₹ / Sq Ft",  f"₹{ppsf:,.0f}")
-        rc3.metric("🛏️ Config",      f"{bedrooms}BHK · {bathrooms}Ba")
+        rc2.metric(" ₹ / Sq Ft",  f"₹{ppsf:,.0f}")
+        rc3.metric(" Config",      f"{bedrooms}BHK · {bathrooms}Ba")
 
         # Segment banner — each segment has its own vivid gradient
         seg_cfg = {
             "Affordable": ("linear-gradient(135deg,#00874a,#00c896,#00e6a8)",
                            "🟢", "Under ₹30 Lakhs",
-                           "Entry-level / budget property. Great for first-time buyers."),
+                           "Entry-level and Affordable"),
             "Mid-Range":  ("linear-gradient(135deg,#1237cc,#1648ff,#2d6cff)",
                            "🔵", "₹30L to ₹80 Lakhs",
-                           "Standard residential property with good amenities."),
+                           "Standard residential property with good facilities."),
             "Premium":    ("linear-gradient(135deg,#c97000,#ffb300,#ffd060)",
                            "🟡", "₹80L to ₹2 Crore",
-                           "High-end city property with modern facilities."),
+                           "city property with modern facilities."),
             "Luxury":     ("linear-gradient(135deg,#7b0029,#ff3d6b,#ff6b8a)",
                            "💎", "Above ₹2 Crore",
-                           "Premium villa / penthouse in a prime location."),
+                           "Premium House in a prime location."),
         }
         sg, s_em, s_rng, s_dsc = seg_cfg.get(segment, seg_cfg["Mid-Range"])
         st.markdown(f"""
@@ -1213,7 +1211,7 @@ with tab_val:
         </div>
         """, unsafe_allow_html=True)
 
-        st.caption("📊 Market Segment Position")
+        st.caption("Market Segment ")
         seg_pct = {"Affordable": 12, "Mid-Range": 37, "Premium": 68, "Luxury": 95}
         st.progress(seg_pct.get(segment, 50))
         sl1, sl2 = st.columns(2)
@@ -1252,7 +1250,7 @@ with tab_analytics:
          border-radius:16px;padding:clamp(14px,3vw,20px) clamp(16px,3vw,24px);
          margin-bottom:20px;box-shadow:0 6px 24px rgba(22,72,255,0.3);'>
         <div style='font-size:clamp(17px,4vw,22px);font-weight:900;color:white;'>
-            📈 Market Analytics Dashboard
+             Market Analytics Dashboard
         </div>
         <div style='font-size:clamp(11px,2.5vw,13px);color:rgba(0,212,255,0.85);
              font-weight:600;margin-top:3px;'>
@@ -1268,10 +1266,10 @@ with tab_analytics:
              border:2px dashed #b0c4ff;'>
             <div style='font-size:clamp(36px,8vw,52px);'>📊</div>
             <div style='font-size:18px;font-weight:800;color:#1648ff;margin-top:10px;'>
-                No Data Yet
+        No Data Stored
             </div>
             <div style='font-size:14px;color:#5a6a8a;margin-top:6px;'>
-                Run your first valuation to unlock analytics
+                predict the price to view analytics
             </div>
         </div>
         """, unsafe_allow_html=True)
@@ -1287,11 +1285,11 @@ with tab_analytics:
         """, unsafe_allow_html=True)
 
         k1, k2 = st.columns(2)
-        k1.metric("🏠 Total Valuations",  f"{len(df_hist):,}")
-        k2.metric("💰 Avg Price",          f"₹{df_hist['predicted_price'].mean():,.0f}")
+        k1.metric("Total Valuations",  f"{len(df_hist):,}")
+        k2.metric("Avg Price",          f"₹{df_hist['predicted_price'].mean():,.0f}")
         k3, k4 = st.columns(2)
-        k3.metric("📏 Avg Area",           f"{df_hist['area'].mean():,.0f} sq ft")
-        k4.metric("💹 Avg ₹/Sq Ft",        f"₹{df_hist['price_per_sqft'].mean():,.0f}")
+        k3.metric("Avg Area",           f"{df_hist['area'].mean():,.0f} sq ft")
+        k4.metric("Avg ₹/Sq Ft",        f"₹{df_hist['price_per_sqft'].mean():,.0f}")
 
         st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
 
@@ -1335,7 +1333,7 @@ with tab_analytics:
 
         # Chart 1 — State-wise bar
         fig1 = px.bar(df_hist, x="state", y="predicted_price", color="segment",
-                      barmode="group", title="🏙️ State-wise Price Distribution",
+                      barmode="group", title=" State-wise Price Distribution",
                       color_discrete_map=SEG_COLORS,
                       labels={"predicted_price":"Price (₹)","state":"State"})
         fig1.update_layout(plot_bgcolor="#f4f8ff", **LAYOUT)
@@ -1355,12 +1353,12 @@ with tab_analytics:
         # Chart 3 — Furnishing box/bar
         if df_hist["furnishing"].nunique() > 1:
             fig3 = px.box(df_hist, x="furnishing", y="predicted_price", color="furnishing",
-                          title="🛋️ Price by Furnishing Status",
+                          title="Price based on furniture",
                           color_discrete_sequence=["#8b5cf6","#00d4ff","#ff3d6b"],
                           labels={"predicted_price":"Price (₹)","furnishing":"Furnishing"})
         else:
             fig3 = px.bar(df_hist, x="furnishing", y="predicted_price", color="furnishing",
-                          title="🛋️ Price by Furnishing Status",
+                          title="Price based on furniture",
                           color_discrete_sequence=["#8b5cf6"],
                           labels={"predicted_price":"Price (₹)","furnishing":"Furnishing"})
         fig3.update_layout(plot_bgcolor="#fefce8", showlegend=False, **LAYOUT)
@@ -1371,7 +1369,7 @@ with tab_analytics:
         seg_count = df_hist.groupby("segment")["predicted_price"].count().reset_index()
         seg_count.columns = ["segment","count"]
         fig4 = px.bar(seg_count, x="segment", y="count", color="segment",
-                      title="🏷️ Valuations by Market Segment",
+                      title="Valuations by Market Segment",
                       color_discrete_map=SEG_COLORS,
                       labels={"count":"Valuations","segment":"Segment"}, text="count")
         fig4.update_layout(plot_bgcolor="#f0fff8", showlegend=False, **LAYOUT)
@@ -1413,13 +1411,13 @@ with tab_map:
         ].copy()
 
     if df_map.empty:
-        st.info("📍 Properties will appear here after valuations with location data.")
+        st.info("Properties will appear here after valuations with location data.")
         m = folium.Map(location=[20.5, 78.9], zoom_start=5, tiles="CartoDB positron")
     else:
         m = folium.Map(location=[df_map["lat"].mean(), df_map["lon"].mean()],
                        zoom_start=6, tiles="CartoDB positron")
         SEG_COLOR = {"Affordable":"green","Mid-Range":"blue","Premium":"orange","Luxury":"red"}
-        SEG_EMOJI = {"Affordable":"🟢","Mid-Range":"🔵","Premium":"🟠","Luxury":"🔴"}
+        SEG_EMOJI = {"Low-Range":"🟢","Mid-Range":"🔵","High-Range":"🟠","Top-Range":"🔴"}
 
         for _, row in df_map.iterrows():
             color = SEG_COLOR.get(row["segment"], "blue")
@@ -1438,12 +1436,12 @@ with tab_map:
                 location=[row["lat"], row["lon"]],
                 popup=folium.Popup(
                     f"<b style='font-size:14px;color:#0a1628;'>{row.get('city','')}, {row.get('state','')}</b><br>"
-                    f"<span style='color:#1648ff;font-weight:700;'>💰 ₹{row['predicted_price']:,.0f}</span><br>"
-                    f"📐 {row['area']} sq ft · {row['bedrooms']} BHK<br>"
-                    f"🛁 {row['bathrooms']} Bath · {row['stories']} Floor(s)<br>"
-                    f"🛋️ {row.get('furnishing','')}<br>"
+                    f"<span style='color:#1648ff;font-weight:700;'> ₹{row['predicted_price']:,.0f}</span><br>"
+                    f" {row['area']} sq ft · {row['bedrooms']} BHK<br>"
+                    f"{row['bathrooms']} Bath · {row['stories']} Floor(s)<br>"
+                    f" {row.get('furnishing','')}<br>"
                     f"{emoji} {row['segment']}<br>"
-                    f"👤 {row.get('username','')}{media_html}",
+                    f" {row.get('username','')}{media_html}",
                     max_width=220
                 ),
                 icon=folium.Icon(color=color, icon="home", prefix="fa")
@@ -1484,7 +1482,7 @@ st.markdown("""
 <div style='text-align:center;margin-top:40px;padding:20px 8px 10px;
      border-top:2px solid #e8efff;'>
     <div style='font-size:13px;font-weight:700;color:#1648ff;'>
-        🏙️ ProProperty AI
+        🏙️ House Price Prediction
     </div>
     <div style='font-size:11px;color:#8a9abc;margin-top:4px;font-weight:500;'>
         ML-Powered Real Estate Valuation &nbsp;·&nbsp; Final Year Project
