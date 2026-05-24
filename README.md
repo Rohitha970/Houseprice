@@ -72,13 +72,10 @@ model.fit(X_train, y_train)
 # 4. Save
 joblib.dump(model, "house_model.pkl")
 joblib.dump(list(X.columns), "model_columns.pkl")
-```
 
----
 
 ## 🗂️ Project Structure
 
-```
 proproperty-ai/
 ├── proproperty_ai.py      # Main Streamlit app
 ├── requirements.txt       # Python dependencies
@@ -87,32 +84,5 @@ proproperty-ai/
 ├── .env                   # Secrets — never commit this!
 ├── .gitignore
 └── README.md
-```
 
----
 
-## ☁️ Deployment
-
-### Streamlit Community Cloud (Free)
-1. Push repo to GitHub
-2. Go to [share.streamlit.io](https://share.streamlit.io)
-3. Connect repo → set `proproperty_ai.py` as entry point
-4. Add `DATABASE_URL` in Secrets
-
-### Render.com
-```
-Build command : pip install -r requirements.txt
-Start command : streamlit run proproperty_ai.py --server.port $PORT
-```
-
----
-
-## 🔒 Security Notes
-- Passwords hashed with **bcrypt** (never stored in plain text)
-- Secrets managed via `.env` / environment variables
-- `.gitignore` excludes `.env` and the SQLite database
-
----
-
-## 📄 License
-MIT — free to use, modify, and deploy.
