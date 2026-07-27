@@ -1,10 +1,3 @@
-
-# ================================================================
-#  ProProperty AI — Real Estate Valuation Platform
-#  Final Year Project | Full-Stack ML Application
-#  Stack: Python · Streamlit · Random Forest · SQLAlchemy · Plotly
-# ================================================================
-
 import os, time, hashlib, joblib, requests, base64, sqlite3
 import pandas as pd
 import plotly.express as px
@@ -14,27 +7,20 @@ from datetime import datetime
 from sqlalchemy import create_engine, text
 from streamlit_folium import st_folium
 from PIL import Image
-
 try:
     from streamlit_js_eval import get_geolocation
-    GPS_AVAILABLE = True
+    G = True
 except ImportError:
-    GPS_AVAILABLE = False
-
-# ── PAGE CONFIG ──────────────────────────────────────────────────
+    gps_enabled = False
 st.set_page_config(
     page_title="House price prediction",
     page_icon="🏙️",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
-
-#  GLOBAL STYLES — Bold, vibrant, fully mobile-first
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap');
-
-/* ── CSS DESIGN TOKENS ── */
 :root {
     --blue:      #1648ff;
     --blue-mid:  #2d6cff;
@@ -51,7 +37,6 @@ st.markdown("""
     --shadow-md: 0 6px 28px rgba(22,72,255,0.13);
 }
 
-/* ── BASE ── */
 html, body, [class*="css"] {
     font-family: 'Plus Jakarta Sans', sans-serif !important;
 }
@@ -63,9 +48,6 @@ html, body { overflow-x: hidden !important; max-width: 100vw !important; }
     padding-right: 1.2rem !important;
     max-width: 100% !important;
 }
-
-/* ── GLOBAL TEXT — dark on all light surfaces ── */
-/* These must come early so later rules can override for specific white-on-color cases */
 .stApp { color: #0d1f3c !important; }
 p, span, label, li, small, caption,
 h1, h2, h3, h4, h5, h6 { color: #0d1f3c !important; -webkit-text-fill-color: #0d1f3c !important; }
@@ -74,8 +56,6 @@ h1, h2, h3, h4, h5, h6 { color: #0d1f3c !important; -webkit-text-fill-color: #0d
 [data-testid="stWidgetLabel"] { color: #0d1f3c !important; -webkit-text-fill-color: #0d1f3c !important; font-weight: 700 !important; }
 [data-testid="stMarkdownContainer"] p,
 [data-testid="stMarkdownContainer"] span { color: #0d1f3c !important; -webkit-text-fill-color: #0d1f3c !important; }
-
-/* ── SECTION HEADERS ── */
 .sec-head {
     display: flex !important;
     align-items: center !important;
@@ -93,8 +73,6 @@ h1, h2, h3, h4, h5, h6 { color: #0d1f3c !important; -webkit-text-fill-color: #0d
     margin: 24px 0 14px !important;
     word-break: break-word !important;
 }
-
-/* ── TABS ── */
 .stTabs [data-baseweb="tab-list"] {
     background: white !important;
     border-radius: 14px !important;
@@ -132,8 +110,6 @@ h1, h2, h3, h4, h5, h6 { color: #0d1f3c !important; -webkit-text-fill-color: #0d
     color: white !important;
     -webkit-text-fill-color: white !important;
 }
-
-/* ── BUTTONS ── */
 .stButton > button {
     background: linear-gradient(135deg, #1648ff, #2d6cff) !important;
     color: white !important;
@@ -153,8 +129,6 @@ h1, h2, h3, h4, h5, h6 { color: #0d1f3c !important; -webkit-text-fill-color: #0d
     transform: translateY(-2px) !important;
     box-shadow: 0 8px 28px rgba(22,72,255,0.45) !important;
 }
-
-/* ── INPUT LABELS — always dark ── */
 .stTextInput label, .stSelectbox label,
 .stNumberInput label, .stFileUploader label {
     font-size: 14px !important;
@@ -164,8 +138,6 @@ h1, h2, h3, h4, h5, h6 { color: #0d1f3c !important; -webkit-text-fill-color: #0d
     display: block !important;
     margin-bottom: 5px !important;
 }
-
-/* ── INPUT FIELDS ── */
 .stTextInput input, .stNumberInput input {
     border-radius: 12px !important;
     border: 2px solid #dde3f5 !important;
@@ -181,9 +153,6 @@ h1, h2, h3, h4, h5, h6 { color: #0d1f3c !important; -webkit-text-fill-color: #0d
     border-color: #1648ff !important;
     box-shadow: 0 0 0 3px rgba(22,72,255,0.12) !important;
 }
-
-/* ── SELECTBOX — FIXED: only target the single visible control, not all nested divs ── */
-/* Control wrapper */
 .stSelectbox [data-baseweb="select"] > div:first-child {
     font-size: 16px !important;
     min-height: 48px !important;
@@ -193,7 +162,7 @@ h1, h2, h3, h4, h5, h6 { color: #0d1f3c !important; -webkit-text-fill-color: #0d
     color: #0d1f3c !important;
     -webkit-text-fill-color: #0d1f3c !important;
 }
-/* Selected value text */
+
 .stSelectbox [data-baseweb="select"] [data-testid="stMarkdownContainer"],
 .stSelectbox [data-baseweb="select"] input,
 .stSelectbox [data-baseweb="select"] [aria-selected],
@@ -203,7 +172,7 @@ h1, h2, h3, h4, h5, h6 { color: #0d1f3c !important; -webkit-text-fill-color: #0d
     -webkit-text-fill-color: #0d1f3c !important;
     background: transparent !important;
 }
-/* Dropdown menu — force dark text always, critical for mobile */
+
 [data-baseweb="menu"] {
     background: #ffffff !important;
     border-radius: 12px !important;
@@ -228,7 +197,7 @@ h1, h2, h3, h4, h5, h6 { color: #0d1f3c !important; -webkit-text-fill-color: #0d
     color: #1648ff !important;
     -webkit-text-fill-color: #1648ff !important;
 }
-/* Popover/portal that renders dropdown on mobile */
+
 [data-baseweb="popover"] {
     background: #ffffff !important;
 }
@@ -243,8 +212,7 @@ h1, h2, h3, h4, h5, h6 { color: #0d1f3c !important; -webkit-text-fill-color: #0d
     background: #ffffff !important;
 }
 
-/* ── TOGGLES — label always dark, no background stacking ── */
-/* Label text */
+
 [data-testid="stToggleLabel"] p,
 [data-testid="stToggleLabel"] span,
 [data-testid="stToggleLabel"] {
@@ -253,12 +221,11 @@ h1, h2, h3, h4, h5, h6 { color: #0d1f3c !important; -webkit-text-fill-color: #0d
     font-weight: 600 !important;
     font-size: 14px !important;
 }
-/* Checkbox labels */
+
 .stCheckbox label span { color: #0d1f3c !important; -webkit-text-fill-color: #0d1f3c !important; }
-/* Toggle switch scale */
+
 [data-testid="stToggle"] input ~ div { transform: scale(1.1) !important; }
 
-/* ── METRIC CARDS ── */
 [data-testid="metric-container"] {
     background: white !important;
     border: 1.5px solid #dde3f5 !important;
@@ -273,18 +240,18 @@ h1, h2, h3, h4, h5, h6 { color: #0d1f3c !important; -webkit-text-fill-color: #0d
 [data-testid="stMetricValue"] { color: #1648ff !important; -webkit-text-fill-color: #1648ff !important; font-size: 22px !important; font-weight: 900 !important; }
 [data-testid="stMetricDelta"] { color: #00c896 !important; -webkit-text-fill-color: #00c896 !important; font-size: 11px !important; }
 
-/* ── CAPTIONS ── */
+
 [data-testid="stCaptionContainer"] p,
 .stCaption { color: #5a6a8a !important; -webkit-text-fill-color: #5a6a8a !important; font-size: 13px !important; }
 
-/* ── PROGRESS BAR ── */
+
 .stProgress > div > div {
     background: linear-gradient(90deg, #00c896, #1648ff, #ffb300, #ff3d6b) !important;
     border-radius: 20px !important; height: 14px !important;
 }
 .stProgress > div { background: #e2e8f0 !important; border-radius: 20px !important; height: 14px !important; }
 
-/* ── EXPANDER ── */
+
 [data-testid="stExpander"] summary {
     font-size: 14px !important;
     font-weight: 700 !important;
@@ -303,7 +270,7 @@ h1, h2, h3, h4, h5, h6 { color: #0d1f3c !important; -webkit-text-fill-color: #0d
 [data-testid="stExpander"] label { color: #0d1f3c !important; -webkit-text-fill-color: #0d1f3c !important; }
 [data-testid="stExpander"] input { color: #0d1f3c !important; background: white !important; }
 
-/* ── FILE UPLOADER ── */
+
 [data-testid="stFileUploader"] { border-radius: 12px !important; }
 [data-testid="stFileUploader"] section {
     min-height: 80px !important; padding: 12px !important;
@@ -321,28 +288,27 @@ h1, h2, h3, h4, h5, h6 { color: #0d1f3c !important; -webkit-text-fill-color: #0d
 }
 [data-testid="stFileUploader"] small { color: #5a6a8a !important; }
 
-/* ── PLOTLY ── */
+
 .js-plotly-plot, .plotly { max-width: 100% !important; overflow: hidden !important; }
 .stFolium iframe { width: 100% !important; border-radius: 18px !important; }
 
-/* ── ALERTS ── */
+
 [data-testid="stAlert"] { border-radius: 12px !important; }
 [data-testid="stAlert"] p { color: inherit !important; -webkit-text-fill-color: inherit !important; }
 
-/* ── HTML inline divs with white text (result cards, banners) ── */
-/* Allow explicitly styled divs to keep their own colors */
+
 div[style*="color:white"] * { color: white !important; -webkit-text-fill-color: white !important; }
 div[style*="color: white"] * { color: white !important; -webkit-text-fill-color: white !important; }
 div[style*="color:rgba(255"] * { color: inherit !important; -webkit-text-fill-color: inherit !important; }
 
-/* ── COLUMNS — desktop ── */
+
 [data-testid="column"] {
     min-width: 0 !important;
     width: auto !important;
     flex: 1 1 auto !important;
 }
 
-/* ── MOBILE 768px ── */
+
 @media (max-width: 768px) {
     [data-testid="column"] {
         width: 100% !important; flex: 1 1 100% !important;
@@ -369,7 +335,7 @@ div[style*="color:rgba(255"] * { color: inherit !important; -webkit-text-fill-co
     }
 }
 
-/* ── SMALL PHONES 480px ── */
+
 @media (max-width: 480px) {
     .main .block-container { padding-left: 0.3rem !important; padding-right: 0.3rem !important; }
     [data-testid="stMetricValue"] { font-size: 16px !important; }
@@ -378,7 +344,7 @@ div[style*="color:rgba(255"] * { color: inherit !important; -webkit-text-fill-co
 </style>
 """, unsafe_allow_html=True)
 
-# ── MEDIA FOLDER & DATABASE ──────────────────────────────────────
+
 os.makedirs("property_media", exist_ok=True)
 DB_PATH = "/tmp/proproperty.db"
 @st.cache_resource
@@ -414,7 +380,7 @@ def init_db():
 
 init_db()
 
-# ── MODEL ────────────────────────────────────────────────────────
+
 @st.cache_resource(show_spinner="Loading AI model…")
 def load_model():
     try:
@@ -424,7 +390,7 @@ def load_model():
 
 model, MODEL_COLS = load_model()
 
-# ── AUTH ─────────────────────────────────────────────────────────
+
 def hash_pw(pw):   return hashlib.sha256(pw.encode()).hexdigest()
 def verify_pw(pw, h): return hash_pw(pw) == h
 
@@ -449,7 +415,7 @@ def login_user(u, pw):
     if not verify_pw(pw, row[0]):return False, "Incorrect password."
     return True, "ok"
 
-# ── LOCATION DATA ────────────────────────────────────────────────
+
 COUNTRY_STATES = {
     "India": ["Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh",
               "Goa","Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka",
@@ -642,7 +608,7 @@ def save_prediction(username, inp, price, segment, lat, lon, media_paths=""):
         con.commit()
 
 
-# ── SESSION STATE ────────────────────────────────────────────────
+
 defaults = {
     "logged_in": False, "user": "", "page": "login",
     "auto_city": "", "auto_lat": 0.0, "auto_lon": 0.0, "_last_pin": "",
@@ -652,14 +618,12 @@ for k, v in defaults.items():
     if k not in st.session_state:
         st.session_state[k] = v
 
-# ════════════════════════════════════════════════════════════════
-#  AUTH SCREENS — Deep navy + electric blue + coral accent
-# ════════════════════════════════════════════════════════════════
+
 if not st.session_state.logged_in:
 
     st.markdown("""
     <style>
-    /* ═══ LOGIN PAGE OVERRIDES — must come AFTER global styles ═══ */
+   
     .stApp {
         background: linear-gradient(145deg, #020b18 0%, #061433 40%, #0a2070 75%, #1648ff 100%) !important;
     }
@@ -669,7 +633,7 @@ if not st.session_state.logged_in:
         color: white !important;
         -webkit-text-fill-color: white !important;
     }
-    /* Exception: dropdown menus must stay dark-text-on-white */
+   
     [data-baseweb="menu"],
     [data-baseweb="menu"] *,
     [data-baseweb="popover"],
@@ -685,7 +649,7 @@ if not st.session_state.logged_in:
         -webkit-text-fill-color: #1648ff !important;
     }
 
-    /* Input labels — triple specificity to beat global rule */
+    
     .stApp .stTextInput label span,
     .stApp .stTextInput label p,
     .stApp .stTextInput label,
@@ -697,7 +661,7 @@ if not st.session_state.logged_in:
         font-weight: 700 !important;
     }
 
-    /* Input boxes — solid navy bg ensures white text visible on laptop AND mobile */
+   
     .stApp .stTextInput input {
         background: #0a1e4a !important;
         color: #ffffff !important;
@@ -731,7 +695,7 @@ if not st.session_state.logged_in:
         box-shadow: 0 0 0px 1000px #0a1e4a inset, 0 0 0 3px rgba(0,212,255,0.3) !important;
     }
 
-    /* Buttons */
+    
     .stApp .stButton > button {
         background: linear-gradient(135deg, #1648ff, #00d4ff) !important;
         color: white !important;
@@ -739,7 +703,7 @@ if not st.session_state.logged_in:
         box-shadow: 0 6px 24px rgba(22,72,255,0.5) !important;
     }
 
-    /* Badge spans — override global span rule with class+element specificity */
+  
     .login-badge-cyan {
         color: #00d4ff !important;
         -webkit-text-fill-color: #00d4ff !important;
@@ -755,7 +719,7 @@ if not st.session_state.logged_in:
     </style>
     """, unsafe_allow_html=True)
 
-    # ── HERO ─────────────────────────────────────────────────────
+   
     st.markdown("""
     <div style='text-align:center;padding:clamp(24px,6vw,56px) 16px 24px;'>
         <div style='font-size:clamp(52px,11vw,80px);filter:drop-shadow(0 4px 20px rgba(22,72,255,0.6));'>🏙️</div>
@@ -793,7 +757,6 @@ if not st.session_state.logged_in:
     mid = st.container()
     with mid:
 
-        # ── LOGIN ─────────────────────────────────────────────
         if st.session_state.page == "login":
             st.markdown("""
             <div style='background:rgba(255,255,255,0.06);backdrop-filter:blur(24px);
@@ -830,7 +793,7 @@ if not st.session_state.logged_in:
                 st.session_state.page = "register"
                 st.rerun()
 
-        # ── REGISTER ──────────────────────────────────────────
+       
         elif st.session_state.page == "register":
             st.markdown("""
             <div style='background:rgba(255,255,255,0.06);backdrop-filter:blur(24px);
@@ -872,11 +835,9 @@ if not st.session_state.logged_in:
 
     st.stop()
 
-# ════════════════════════════════════════════════════════════════
-#  MAIN DASHBOARD
-# ════════════════════════════════════════════════════════════════
 
-# ── VIBRANT TOP NAV BAR ──────────────────────────────────────────
+
+
 st.markdown(f"""
 <div style='background:white;padding:clamp(10px,2vw,14px) clamp(14px,3vw,22px);
      border-radius:16px;box-shadow:0 2px 12px rgba(22,72,255,0.10);
@@ -917,9 +878,7 @@ tab_val, tab_analytics, tab_map = st.tabs([
     " Valuation", " Analytics", " Map"
 ])
 
-# ════════════════════════════════════════════════════════════════
-#  TAB 1 — VALUATION
-# ════════════════════════════════════════════════════════════════
+
 with tab_val:
 
     st.markdown('<div class="sec-head">📍 &nbsp; Property Location</div>', unsafe_allow_html=True)
@@ -948,7 +907,7 @@ with tab_val:
     city = lc4.text_input("🏙️ City", value=st.session_state.auto_city,
                           placeholder="Fetching from pincode")
 
-    # ── PROPERTY DETAILS ─────────────────────────────────────────
+   
     st.markdown('<div class="sec-head">📐 &nbsp;Property Details</div>', unsafe_allow_html=True)
 
     pd1, pd2 = st.columns(2)
@@ -964,7 +923,7 @@ with tab_val:
     furnishing = pd6.selectbox("Furnishing",
                                ["Fully Furnished", "Semi-Furnished", "Unfurnished"])
 
-    # ── AMENITIES ────────────────────────────────────────────────
+  
     st.markdown('<div class="sec-head">✅ &nbsp;Property Facilities</div>', unsafe_allow_html=True)
     st.caption("Toggle all features that apply to this property:")
 
@@ -980,7 +939,7 @@ with tab_val:
     airconditioning = am5.toggle("Air Conditioning")
     prefarea        = am6.toggle("Prime Location")
 
-    # ── MEDIA UPLOAD ─────────────────────────────────────────────
+   
     st.markdown('<div class="sec-head">&nbsp;Property Visuals </div>', unsafe_allow_html=True)
 
     mu1, mu2 = st.columns(2)
@@ -999,7 +958,7 @@ with tab_val:
         if video:
             st.video(video)
 
-    # ── GPS ───────────────────────────────────────────────────────
+   
     lat = st.session_state.auto_lat
     lon = st.session_state.auto_lon
     with st.expander("GPS Coordinates"):
@@ -1016,7 +975,7 @@ with tab_val:
         lat = g1.number_input("Latitude",  value=float(lat),  format="%.5f")
         lon = g2.number_input("Longitude", value=float(lon), format="%.5f")
 
-    # ── PRICE SEGMENT GUIDE — vivid gradient cards ────────────────
+   
     st.markdown('<div class="sec-head">💡 &nbsp;Price range info </div>', unsafe_allow_html=True)
 
     pg1, pg2 = st.columns(2)
@@ -1141,7 +1100,7 @@ with tab_val:
             st.session_state[k] = defaults[k]
         st.rerun()
 
-    # ── RESULT CARD ──────────────────────────────────────────────
+   
     if st.session_state.result:
         r          = st.session_state.result
         prediction = r["prediction"]
@@ -1158,7 +1117,7 @@ with tab_val:
         lat        = r["lat"]
         lon        = r["lon"]
 
-        # Vivid result header
+        
         st.markdown("""
         <div style='background:white;border-radius:18px;padding:clamp(16px,4vw,24px);
              margin:20px 0 16px;box-shadow:0 4px 20px rgba(22,72,255,0.12);
@@ -1171,14 +1130,14 @@ with tab_val:
         </div>
         """, unsafe_allow_html=True)
 
-        # Full-width price card first, then 2-col below — works perfectly on mobile
+        
         st.metric("House Price", f"₹{prediction:,.0f}",
                   delta=f"Range: ₹{low:,.0f} – ₹{high:,.0f}")
         rc2, rc3 = st.columns(2)
         rc2.metric(" ₹ / Sq Ft",  f"₹{ppsf:,.0f}")
         rc3.metric(" Config",      f"{bedrooms}BHK · {bathrooms}Ba")
 
-        # Segment banner — each segment has its own vivid gradient
+      
         seg_cfg = {
             "Affordable": ("linear-gradient(135deg,#00874a,#00c896,#00e6a8)",
                            "🟢", "Under ₹30 Lakhs",
@@ -1236,9 +1195,6 @@ with tab_val:
                           color="#1648ff", fill=True, fill_opacity=0.07).add_to(rmap)
             st_folium(rmap, use_container_width=True, height=320, key="result_map")
 
-# ════════════════════════════════════════════════════════════════
-#  TAB 2 — ANALYTICS
-# ════════════════════════════════════════════════════════════════
 with tab_analytics:
 
     # Vibrant analytics header
@@ -1328,7 +1284,7 @@ with tab_analytics:
                 gridcolor=ygrid,
             )
 
-        # Chart 1 — State-wise bar
+        
         fig1 = px.bar(df_hist, x="state", y="predicted_price", color="segment",
                       barmode="group", title=" State-wise Price Distribution",
                       color_discrete_map=SEG_COLORS,
@@ -1337,7 +1293,7 @@ with tab_analytics:
         _apply_axis(fig1, xgrid="#e8efff", ygrid="#e8efff", xtickangle=-40)
         st.plotly_chart(fig1, use_container_width=True, config=CHART_CONFIG)
 
-        # Chart 2 — Area vs Price scatter
+
         fig2 = px.scatter(df_hist, x="area", y="predicted_price", color="segment",
                           size="bedrooms", hover_data=["city","bedrooms","furnishing"],
                           title="📐 Area vs Predicted Price",
@@ -1347,7 +1303,7 @@ with tab_analytics:
         _apply_axis(fig2, xgrid="#f0e8ff", ygrid="#f0e8ff")
         st.plotly_chart(fig2, use_container_width=True, config=CHART_CONFIG)
 
-        # Chart 3 — Furnishing box/bar
+        
         if df_hist["furnishing"].nunique() > 1:
             fig3 = px.box(df_hist, x="furnishing", y="predicted_price", color="furnishing",
                           title="Price based on furniture",
@@ -1362,7 +1318,7 @@ with tab_analytics:
         _apply_axis(fig3, xgrid="#fff3b0", ygrid="#fff3b0")
         st.plotly_chart(fig3, use_container_width=True, config=CHART_CONFIG)
 
-        # Chart 4 — Segment count
+        
         seg_count = df_hist.groupby("segment")["predicted_price"].count().reset_index()
         seg_count.columns = ["segment","count"]
         fig4 = px.bar(seg_count, x="segment", y="count", color="segment",
@@ -1381,9 +1337,6 @@ with tab_analytics:
             st.dataframe(df_hist[avail].rename(columns={"predicted_price":"Price (₹)"}),
                          use_container_width=True, hide_index=True)
 
-# ════════════════════════════════════════════════════════════════
-#  TAB 3 — MAP EXPLORER
-# ════════════════════════════════════════════════════════════════
 with tab_map:
 
     st.markdown("""
@@ -1474,7 +1427,7 @@ with tab_map:
 
     st_folium(m, use_container_width=True, height=500, key="explorer_map")
 
-# ── FOOTER ───────────────────────────────────────────────────────
+─
 st.markdown("""
 <div style='text-align:center;margin-top:40px;padding:20px 8px 10px;
      border-top:2px solid #e8efff;'>
