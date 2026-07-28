@@ -9,7 +9,7 @@ from streamlit_folium import st_folium
 from PIL import Image
 try:
     from streamlit_js_eval import get_geolocation
-    G = True
+    gps_enabled = True
 except ImportError:
     gps_enabled = False
 st.set_page_config(
