@@ -7,11 +7,12 @@ from datetime import datetime
 from sqlalchemy import create_engine, text
 from streamlit_folium import st_folium
 from PIL import Image
+
 try:
     from streamlit_js_eval import get_geolocation
-    gps_enabled = True
+    GPS_AVAILABLE = True
 except ImportError:
-    gps_enabled = False
+    GPS_AVAILABLE= False
 st.set_page_config(
     page_title="House price prediction",
     page_icon="🏙️",
