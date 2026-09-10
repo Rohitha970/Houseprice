@@ -1427,7 +1427,7 @@ with tab_map:
 
     st_folium(m, use_container_width=True, height=500, key="explorer_map")
 
-─
+
 st.markdown("""
 <div style='text-align:center;margin-top:40px;padding:20px 8px 10px;
      border-top:2px solid #e8efff;'>
